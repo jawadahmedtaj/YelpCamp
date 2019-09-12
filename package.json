@@ -1,0 +1,24 @@
+{
+  "name": "s28-yelpcamp",
+  "version": "1.0.0",
+  "description": "Yelp camp - Yelp clone",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jawadahmedtaj/YelpCamp.git"
+  },
+  "author": "Jawad Ahmed",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jawadahmedtaj/YelpCamp/issues"
+  },
+  "homepage": "https://github.com/jawadahmedtaj/YelpCamp#readme",
+  "dependencies": {
+    "ejs": "^2.7.1",
+    "express": "^4.17.1",
+    "required": "^1.0.0"
+  }
+}
