@@ -37,9 +37,6 @@ app.get("/campgrounds", (req, res) => {
             })
         }
     })
-    // res.render("campgrounds", {
-    //     camps: campgrounds
-    // })
 })
 
 app.post("/campgrounds", (req, res) => {
