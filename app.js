@@ -54,9 +54,11 @@ app.get("/campgrounds", (req, res) => {
 app.post("/campgrounds", (req, res) => {
     let name = req.body.name;
     let image = req.body.image;
+    let desc = req.body.description;
     let newCampground = {
         name: name,
-        image: image
+        image: image,
+        description: desc
     }
     Campground.create(newCampground, (err, newlyCreated) => {
         if (err) console.log(err);
