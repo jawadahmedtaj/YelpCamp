@@ -26,7 +26,7 @@ app.get("/campgrounds", (req, res) => {
     Campground.find({}, (err, allCampgrounds) => {
         if (err) console.log(err)
         else {
-            res.render("campgrounds", {
+            res.render("campgrounds/campgrounds", {
                 camps: allCampgrounds
             })
         }
@@ -49,7 +49,7 @@ app.post("/campgrounds", (req, res) => {
 })
 
 app.get("/campgrounds/new", (req, res) => {
-    res.render("new")
+    res.render("campgrounds/new")
 })
 
 app.get("/campgrounds/:id", (req, res) => {
@@ -57,11 +57,15 @@ app.get("/campgrounds/:id", (req, res) => {
     Campground.findById(req.params.id).populate("comments").exec((err, foundCamp) => {
         if (err) console.log(err)
         else {
-            res.render("show", {
+            res.render("campgrounds/show", {
                 camps: foundCamp
             })
         }
     })
+})
+
+app.get("/campgrounds/:id/comments/new", (req, res) => {
+    res.render("comments/new");
 })
 
 app.listen(3000, () => {
