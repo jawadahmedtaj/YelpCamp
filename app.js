@@ -65,8 +65,15 @@ app.get("/campgrounds/:id", (req, res) => {
 })
 
 app.get("/campgrounds/:id/comments/new", (req, res) => {
-    res.render("comments/new");
+    Campground.findById(req.params.id, (err, campground) => {
+        if (err) console.log(err)
+        else res.render("comments/new", {
+            campground: campground
+        })
+    })
 })
+
+
 
 app.listen(3000, () => {
     console.log("Yelp camp server has started")
