@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const app = express();
 const mongoose = require("mongoose");
+const Campground = require("./models/campground");
 
 mongoose.connect("mongodb://127.0.0.1:27017/yelp_camp", {
     useNewUrlParser: true,
@@ -9,13 +10,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/yelp_camp", {
     useUnifiedTopology: true
 });
 
-let campgroundSchema = new mongoose.Schema({
-    name: String,
-    image: String,
-    description: String
-});
 
-let Campground = mongoose.model("campground", campgroundSchema);
 
 
 app.set("view engine", "ejs");
