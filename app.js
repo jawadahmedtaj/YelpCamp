@@ -10,14 +10,10 @@ mongoose.connect("mongodb://127.0.0.1:27017/yelp_camp", {
     useUnifiedTopology: true
 });
 
-
-
-
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-
 
 // Campground.create({
 //     name: "Granite HIll",
@@ -28,12 +24,9 @@ app.use(bodyParser.urlencoded({
 //     else console.log(campground);
 // })
 
-
-
 app.get("/", (req, res) => {
     res.render("landing");
 })
-
 
 app.get("/campgrounds", (req, res) => {
     Campground.find({}, (err, allCampgrounds) => {
