@@ -23,6 +23,10 @@ app.use(
     extended: true
   })
 );
+app.use(function (req, res, next) {
+  res.locals.currentUser = req.user;
+  next();
+});
 //PASSPORT CONFIG
 app.use(require('express-session')({
   secret: "Oreo was a cool cat",
@@ -45,7 +49,8 @@ app.get("/campgrounds", (req, res) => {
     if (err) console.log(err);
     else {
       res.render("campgrounds/campgrounds", {
-        camps: allCampgrounds
+        camps: allCampgrounds,
+        currentUser: req.user
       });
     }
   });
