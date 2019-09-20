@@ -1,7 +1,8 @@
 const express = require('express');
-const router = express.Router()
+const router = express.Router();
+const Campground = require('../models/campground');
 
-router.get("/campgrounds", (req, res) => {
+router.get("/", (req, res) => {
     Campground.find({}, (err, allCampgrounds) => {
         if (err) console.log(err);
         else {
@@ -13,7 +14,7 @@ router.get("/campgrounds", (req, res) => {
     });
 });
 
-router.post("/campgrounds", (req, res) => {
+router.post("/", (req, res) => {
     let name = req.body.name;
     let image = req.body.image;
     let desc = req.body.description;
@@ -28,11 +29,11 @@ router.post("/campgrounds", (req, res) => {
     });
 });
 
-router.get("/campgrounds/new", (req, res) => {
+router.get("/new", (req, res) => {
     res.render("campgrounds/new");
 });
 
-router.get("/campgrounds/:id", (req, res) => {
+router.get("/:id", (req, res) => {
     Campground.findById(req.params.id)
         .populate("comments")
         .exec((err, foundCamp) => {

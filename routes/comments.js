@@ -1,9 +1,11 @@
 const express = require('express');
-const router = express.Router();
-const Campground = ('../models/campground.js');
-const Comment = ('../models/comment.js');
+const router = express.Router({
+    mergeParams: true
+});
+const Campground = require('../models/campground.js');
+const Comment = require('../models/comment.js');
 
-router.get("/campgrounds/:id/comments/new", isLoggedIn, (req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
     Campground.findById(req.params.id, (err, campground) => {
         if (err) console.log(err);
         else
@@ -13,7 +15,7 @@ router.get("/campgrounds/:id/comments/new", isLoggedIn, (req, res) => {
     });
 });
 
-router.post("/campgrounds/:id/comments", isLoggedIn, (req, res) => {
+router.post("/", isLoggedIn, (req, res) => {
     Campground.findById(req.params.id, (err, campground) => {
         if (err) {
             console.log(err);

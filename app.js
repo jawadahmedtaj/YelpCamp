@@ -45,11 +45,9 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 app.use(express.static(__dirname + "/public"));
 
-app.use(authRoutes);
-app.use(campgroundRoutes);
-app.use(commentRoutes);
-
-
+app.use("/", authRoutes);
+app.use("/campgrounds", campgroundRoutes);
+app.use("/campgrounds/:id/comments", commentRoutes);
 
 app.listen(3000, () => {
   console.log("Yelp camp server has started");
