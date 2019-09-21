@@ -18,7 +18,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/yelp_camp", {
   useUnifiedTopology: true
 });
 
-seedDB();
+// seedDB();
 
 app.set("view engine", "ejs");
 app.use(
