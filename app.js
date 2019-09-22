@@ -11,6 +11,7 @@ const User = require("./models/user");
 const commentRoutes = require("./routes/comments");
 const campgroundRoutes = require('./routes/campgrounds');
 const authRoutes = require('./routes/index');
+const methodOverride = require('method-override');
 
 mongoose.connect("mongodb://127.0.0.1:27017/yelp_camp", {
   useNewUrlParser: true,
@@ -30,6 +31,7 @@ app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
   next();
 });
+app.use(methodOverride("_method"));
 //PASSPORT CONFIG
 app.use(
   require("express-session")({
