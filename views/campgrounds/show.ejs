@@ -18,6 +18,7 @@
           <h4><a href=""><%= camps.name %></a></h4>
           <p><%= camps.description %></p>
           <p><em> Submitted By: <%= camps.author.username %></em></p>
+          <% if(currentUser && camps.author.id.equals(currentUser._id)) { %>
           <a href="/campgrounds/<%= camps._id%>/edit" class="btn btn-warning"
             >Edit</a
           >
@@ -28,6 +29,7 @@
           >
             <button class="btn btn-danger">Delete</button>
           </form>
+          <% } %>
         </div>
       </div>
       <div class="card bg-light my-4">

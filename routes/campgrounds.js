@@ -1,14 +1,13 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Campground = require('../models/campground');
+const Campground = require("../models/campground");
 
 router.get("/", (req, res) => {
     Campground.find({}, (err, allCampgrounds) => {
         if (err) console.log(err);
         else {
             res.render("campgrounds/campgrounds", {
-                camps: allCampgrounds,
-                currentUser: req.user
+                camps: allCampgrounds
             });
         }
     });
@@ -52,37 +51,59 @@ router.get("/:id", (req, res) => {
 });
 
 //Edit Campground Route
-router.get("/:id/edit", (req, res) => {
+router.get("/:id/edit", checkCampgroundOwnership, (req, res) => {
     Campground.findById(req.params.id, (err, foundCampground) => {
         if (err) {
-            res.redirect("/campgrounds")
+            res.redirect("/campgrounds");
         } else {
             res.render("campgrounds/edit", {
                 campground: foundCampground
             });
         }
-    })
-})
+    });
+});
 //Update Campground Route
-router.put("/:id", (req, res) => {
-    Campground.findByIdAndUpdate(req.params.id, req.body.campground, (err, updatedCampground) => {
-        if (err) res.redirect("/campgrounds");
-        else {
-            res.redirect("/campgrounds/" + req.params.id);
+router.put("/:id", checkCampgroundOwnership, (req, res) => {
+    Campground.findByIdAndUpdate(
+        req.params.id,
+        req.body.campground,
+        (err, updatedCampground) => {
+            if (err) res.redirect("/campgrounds");
+            else {
+                res.redirect("/campgrounds/" + req.params.id);
+            }
         }
-    })
-})
+    );
+});
 
 // delete/destroy route
-router.delete("/:id", (req, res) => {
-    Campground.findByIdAndRemove(req.params.id, (err) => {
+router.delete("/:id", checkCampgroundOwnership, (req, res) => {
+    Campground.findByIdAndRemove(req.params.id, err => {
         if (err) {
             res.redirect("/campgrounds");
         } else {
             res.redirect("/campgrounds");
         }
-    })
-})
+    });
+});
+
+function checkCampgroundOwnership(req, res, next) {
+    if (req.isAuthenticated()) {
+        Campground.findById(req.params.id, (err, foundCampground) => {
+            if (err) {
+                res.redirect("back");
+            } else {
+                if (foundCampground.author.id.equals(req.user._id)) {
+                    next();
+                } else {
+                    res.redirect("back");
+                }
+            }
+        });
+    } else {
+        res.redirect("back");
+    }
+}
 
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
