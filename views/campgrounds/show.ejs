@@ -21,12 +21,19 @@
           <a href="/campgrounds/<%= camps._id%>/edit" class="btn btn-warning"
             >Edit</a
           >
+          <form
+            id="delete-form"
+            action="/campgrounds/<%= camps._id%>?_method=DELETE"
+            method="POST"
+          >
+            <button class="btn btn-danger">Delete</button>
+          </form>
         </div>
       </div>
       <div class="card bg-light my-4">
         <div class="text-right my-3 mr-3">
           <a
-            class="btn btn-lg btn-primary"
+            class="btn btn-primary"
             href="/campgrounds/<%= camps._id %>/comments/new"
             >Add New Comment</a
           >
