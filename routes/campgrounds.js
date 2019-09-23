@@ -56,6 +56,7 @@ router.get("/:id", (req, res) => {
 router.get("/:id/edit", middleWare.checkCampgroundOwnership, (req, res) => {
     Campground.findById(req.params.id, (err, foundCampground) => {
         if (err) {
+            req.flash("error", "Campground not found");
             res.redirect("/campgrounds");
         } else {
             res.render("campgrounds/edit", {
@@ -70,8 +71,11 @@ router.put("/:id", middleWare.checkCampgroundOwnership, (req, res) => {
         req.params.id,
         req.body.campground,
         (err, updatedCampground) => {
-            if (err) res.redirect("/campgrounds");
-            else {
+            if (err) {
+                req.flash("error", "Couldn't update the campground, please try later!");
+                res.redirect("/campgrounds");
+            } else {
+                req.flash("success", "Campground edited successfully!");
                 res.redirect("/campgrounds/" + req.params.id);
             }
         }

@@ -19,12 +19,14 @@ router.get("/new", middleWare.isLoggedIn, (req, res) => {
 router.post("/", middleWare.isLoggedIn, (req, res) => {
     Campground.findById(req.params.id, (err, campground) => {
         if (err) {
-            console.log(err);
+            req.flash("error", "Something went wrong, please try later!");
             res.redirect("/campgrounds");
         } else {
             Comment.create(req.body.comment, (err, comment) => {
-                if (err) console.log(err);
-                else {
+                if (err) {
+                    req.flash("error", "Something went wrong, please try again later!");
+                    res.redirect("/campgrounds/" + campground._id);
+                } else {
                     //add username and id to comment
                     comment.author.id = req.user._id;
                     comment.author.username = req.user.username;
@@ -32,6 +34,7 @@ router.post("/", middleWare.isLoggedIn, (req, res) => {
                     //save comment
                     campground.comments.push(comment);
                     campground.save();
+                    req.flash("success", "Comment added successfully!");
                     res.redirect("/campgrounds/" + campground._id);
                 }
             });
@@ -41,8 +44,9 @@ router.post("/", middleWare.isLoggedIn, (req, res) => {
 
 router.get("/:comment_id/edit", middleWare.checkCommentOwnership, (req, res) => {
     Comment.findById(req.params.comment_id, (err, foundComment) => {
-        if (err) res.redirect("back");
-        else {
+        if (err) {
+            res.redirect("back");
+        } else {
             res.render("comments/edit", {
                 campground_id: req.params.id,
                 comment: foundComment
@@ -64,8 +68,11 @@ router.put("/:comment_id", middleWare.checkCommentOwnership, (req, res) => {
 
 router.delete("/:comment_id", middleWare.checkCommentOwnership, (req, res) => {
     Comment.findByIdAndRemove(req.params.comment_id, (err) => {
-        if (err) res.redirect("back");
-        else {
+        if (err) {
+            req.flash("error", "Something seems wrong, please try again later!");
+            res.redirect("back");
+        } else {
+            req.flash("success", "Comment deleted!");
             res.redirect("/campgrounds/" + req.params.id);
         }
     })
