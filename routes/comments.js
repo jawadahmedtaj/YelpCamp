@@ -43,15 +43,22 @@ router.post("/", middleWare.isLoggedIn, (req, res) => {
 });
 
 router.get("/:comment_id/edit", middleWare.checkCommentOwnership, (req, res) => {
-    Comment.findById(req.params.comment_id, (err, foundComment) => {
-        if (err) {
-            res.redirect("back");
-        } else {
-            res.render("comments/edit", {
-                campground_id: req.params.id,
-                comment: foundComment
-            });
+    Campground.findById(req.params.id, (err, foundCampground) => {
+        if (err || !foundCampground) {
+            req.flash("error", "Cannot find comment on that campground");
+            return res.redirect("back");
         }
+        Comment.findById(req.params.comment_id, (err, foundComment) => {
+            if (err || !foundComment) {
+                req.flash("error", "Something seems amiss")
+                res.redirect("back");
+            } else {
+                res.render("comments/edit", {
+                    campground_id: req.params.id,
+                    comment: foundComment
+                });
+            }
+        })
     })
 })
 
