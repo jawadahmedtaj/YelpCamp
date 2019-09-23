@@ -12,6 +12,7 @@ const commentRoutes = require("./routes/comments");
 const campgroundRoutes = require('./routes/campgrounds');
 const authRoutes = require('./routes/index');
 const methodOverride = require('method-override');
+const flash = require('connect-flash');
 
 mongoose.connect("mongodb://127.0.0.1:27017/yelp_camp", {
   useNewUrlParser: true,
@@ -29,6 +30,8 @@ app.use(
 );
 
 app.use(methodOverride("_method"));
+
+app.use(flash());
 //PASSPORT CONFIG
 app.use(
   require("express-session")({
