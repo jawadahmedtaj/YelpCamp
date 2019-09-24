@@ -14,7 +14,7 @@ const authRoutes = require('./routes/index');
 const methodOverride = require('method-override');
 const flash = require('connect-flash');
 
-mongoose.connect("mongodb://127.0.0.1:27017/yelp_camp", {
+mongoose.connect("mongodb+srv://JawadAhmed:A3Z2EcSAG7LXrKSl@cluster0-bfwth.mongodb.net/test?retryWrites=true&w=majority", {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true
